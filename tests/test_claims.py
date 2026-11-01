@@ -56,6 +56,7 @@ def test_all_90_pairs_close_the_gap_exactly_satisfy_the_equation_and_pass_the_ch
     """README: 90 Läufe (6 Formen, 15 Wolken): Lücke höchstens 1e-7, Residuum der Dualitätsgleichung höchstens 1e-10, beide Prüfungen bestehen."""
     items = [fp for rs in runs.values() for _, fp in rs]
     assert len(items) == 90 and all(fp.ok for fp in items)
+    assert not any(fp.pair.primal.far_from_path or fp.pair.dual.far_from_path for fp in items)     # README: der Kern meldet in diesen 90 Läufen nie „weit vom Pfad“
     assert max(fp.pair.gap for fp in items) < 1e-7 and min(fp.pair.gap for fp in items) > -1e-8
     assert max(fp.pair.residual for fp in items) < 1e-10
 

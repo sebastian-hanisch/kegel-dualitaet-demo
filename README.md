@@ -57,6 +57,7 @@ Alle Zahlen stehen in `tests/test_claims.py` (wo dort nur ein Band geprüft wird
 - **Fremdlöser-Aussagen** gelten für die genannten Versionen und werden nicht getestet.
 - **Selbstduale Kegel nur:** der Exponential- und der Potenzkegel (Stück 7) sind es nicht.
 - **Zeiten** hängen vom Rechner ab und werden nicht getestet.
+- **`ok = True` und `converged = True` im Kern heißen nicht „zentriert“.** `center` gilt auch nach 100 erschöpften Schritten, bei negativem Dekrement-Quadrat und im Rundungsstopp als ok; die Schranke `ν/t` gilt streng nur für einen zentrierten Punkt, und bei großem t ist das Dekrement durch Rundung nicht verlässlich bestimmbar. Das Ergebnis des Kerns trägt seit der Härtung das Feld `far_from_path` für die gefährlichste Klasse (eine Zentrierung endete nach 100 Schritten weit vom Pfad, siehe `tests/test_kern.py`). In den 90 Läufen (Primal und Dual, 6 Formen, 15 Wolken) meldet das Feld nie. Eine strengere Härtung wurde gemessen und verworfen, weil sie veröffentlichte Läufe der Stücke 2 und 4 abbrechen ließe, die richtige Werte liefern. Keine Zahl dieser README ändert sich.
 
 ## Verifikation
 
@@ -66,7 +67,7 @@ Alle Zahlen stehen in `tests/test_claims.py` (wo dort nur ein Band geprüft wird
 - **Orakel** (`tests/test_oracle_kegel_dualitaet.py`): der Dualwert trifft den cvxpy-Primalwert aller sechs Formen (8 Wolken); Stützpunkte und Gewichte gegen einen unabhängigen Kreis durch zwei oder drei Punkte; das Dual des Würfels von Hand; Komplementarität; Skalierung; Drehinvarianz; Dual des Duals; das Dual des Beispiels mit Lücke in cvxpy (überspringt sich, wenn Clarabel scheitert).
 - **Randfälle** (`tests/test_edge_cases.py`): zwei Punkte von Hand, gleiche und kollineare Punkte, d = 1 und 3, ungültige Eingaben, kurzer Pfad, Prüfer erkennt ein verletztes Dual, Zustand der Dualstart-Suche.
 - **Verdikte** (`tests/test_verdicts.py`), **Claims** (`tests/test_claims.py`: jede Zahl dieser README), **Oberfläche** (AppTest: jeder Button, jeder Regler an Minimum und Maximum, jede Form, PDF, ein Dualstart-Fehler wird gemeldet statt abzustürzen), Presets, Permalink, Layout, Footer, Laufzeit-Importe.
-- **Umfang:** 133 Tests (2 davon, die cvxpy-Orakel, überspringen sich ohne cvxpy), rund 2,5 Minuten (2026-11-01, Windows).
+- **Umfang:** 139 Tests (2 davon, die cvxpy-Orakel, überspringen sich ohne cvxpy), rund 2,5 Minuten (2026-11-01, Windows).
 - **Nicht gelaufen:** kein Mutationstest (seit 2026-10-28 nicht mehr Teil des Ablaufs). cvxpy und scipy sind Gegenproben im dev-Satz; ohne sie überspringen sich die jeweiligen Tests.
 
 ## Dateistruktur
