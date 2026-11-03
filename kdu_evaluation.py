@@ -253,7 +253,7 @@ def verdict_complementarity(data: dict) -> tuple[str, str]:
     """Experiment 2: Gewichte auf den Stützpunkten, Gleichheit mit Stück 1."""
     k = len(data["support"])
     base = (f"Die Dualgewichte `z_i0` summieren sich zu {de(data['sum_weights'], 9)}; **{k} Stützpunkte** tragen alles, außerhalb höchstens {sci(data['weight_outside'])} (komplementärer Schlupf). "
-            f"Auf den Stützpunkten weichen sie um höchstens {sci(data['max_dev_support'])} von den Gewichten aus Stück 1 ab (`Σ λᵢ xᵢ = c`, `Σ λᵢ = 1`); der Schwerpunkt-Fehler `Σ z̄ᵢ` ist {sci(data['centre_residual'])}.")
+            f"Auf den Stützpunkten weichen sie um höchstens {sci(data['max_dev_support'])} von den Gewichten aus Stück 1 ab (`Σ λᵢ xᵢ = c`, `Σ λᵢ = 1`); der Schwerpunkt-Fehler `Σ z̄ᵢ` ist {sci(data['centre_residual'])}. Diese Werte sind Löser- und Rundungsrauschen und fallen auf anderer CPU anders aus.")
     return ("success" if data["ok"] else "error"), base
 
 
@@ -267,7 +267,8 @@ def verdict_gapex(res: dict) -> tuple[str, str]:
                        f"Macht man den (1,1)-Eintrag ε > 0, ist das Problem streng zulässig, und für ε von {sci(sweep[0]['eps'], 0)} bis {sci(sweep[-1]['eps'], 0)} findet der Löser Werte von {de(min(values), 4)} bis {de(max(values), 4)} "
                        f"(bewiesene Lücke höchstens {sci(max(r['gap'] for r in sweep))}, also {de(res['dual_value'], 0)} im Rahmen der Lücke): der Wert springt bei ε = 0 von {de(res['dual_value'], 0)} auf {de(res['primal_value'], 0)}. "
                        "Der Löser läuft dabei entlang der unbeschränkten optimalen Menge davon (x₂ wächst). "
-                       f"Die Suche nach einem streng zulässigen Dualstart gelingt bei {res['starts_found']} von {res['starts_total']} Werten von ε: das Dual hat keinen streng zulässigen Punkt.")
+                       f"Die Suche nach einem streng zulässigen Dualstart gelingt bei {res['starts_found']} von {res['starts_total']} Werten von ε: das Dual hat keinen streng zulässigen Punkt. "
+                       "Die Zählungen illustrieren die Handrechnung (die Kandidaten sind so gezogen, dass die Hälfte x₁ = 0 hat, die Dualmatrizen schon in zulässiger Form), sie sind keine unabhängige Stichprobe.")
 
 
 def verdict_nonattained(res: dict) -> tuple[str, str]:
@@ -287,5 +288,5 @@ def verdict_weak(res: dict) -> tuple[str, str]:
     last = res["rows"][-1]
     f = res["farkas"]
     return "warning", (f"Der kleinste Eigenwert von `[[x,1],[1,0]]` ist {sci(last['eig'])} bei x = {sci(last['x'], 0)}: er geht gegen null, wird aber nie null, das System ist unzulässig und kommt dem Kegel beliebig nahe. "
-                       f"Ein Zertifikat der Unzulässigkeit (Z ⪰ 0 mit Z₁₁ = 0 und `⟨Z, M₀⟩ < 0`) gibt es nicht: bei {res['cert_samples']} Zufallsmatrizen ist der beste Wert {de(res['cert_best'], 2)} (Z₁₁ = 0 erzwingt Z₁₂ = 0). "
+                       f"Ein Zertifikat der Unzulässigkeit (Z ⪰ 0 mit Z₁₁ = 0 und `⟨Z, M₀⟩ < 0`) gibt es nicht: bei {res['cert_samples']} Zufallsmatrizen ist der beste Wert {de(res['cert_best'], 2)} (Z₁₁ = 0 erzwingt Z₁₂ = 0; die Zufallsmatrizen sind mit Z₁₂ = 0 gezogen und nur Beispiele, der Beweis ist die Handrechnung). "
                        f"Im LP `x ≥ 1, x ≤ 0` dagegen zeigt `y = (1, 1)` mit `Aᵀy = {de(f['ATy'], 0)}` und `bᵀy = {de(f['bTy'], 0)} > 0` die Unzulässigkeit.")

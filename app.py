@@ -107,7 +107,7 @@ st.markdown(
     """
 **Zu jedem Kegelprogramm gehört ein Dual im selben Format.** Aus `min cᵀx` mit `s = b − A x ∈ K` wird `max −bᵀz` mit `Aᵀz = −c` und `z ∈ K` (Orthant, Lorentz- und PSD-Kegel sind selbstdual).
 Für beliebige zulässige `x` und `z` gilt `cᵀx + bᵀz = zᵀs ≥ 0`: **die Lücke ist das Zertifikat**, wie die untere Schranke aus Stück 1. Hier löst derselbe Kern das Primal und das Dual der sechs Formen aus Stück 2.
-Im LP gilt starke Dualität fast immer; **im Kegel trägt sie nur mit einem streng zulässigen Punkt (Slater)**. Drei kleine SDPs ohne Slater-Punkt zeigen eine Lücke von 1, einen zentralen Pfad, der davonläuft, und ein System, das unzulässig ist, ohne dass ein Zertifikat existiert.
+Im LP gilt starke Dualität, sobald eines von beiden zulässig ist; **im Kegel garantiert ein streng zulässiger Punkt (Slater) starke Dualität, ohne ihn kann eine Lücke bleiben**. Drei kleine SDPs ohne Slater-Punkt zeigen eine Lücke von 1, einen zentralen Pfad, der davonläuft, und ein System, das unzulässig ist, ohne dass ein Zertifikat existiert.
 Stück 4 der Reihe „Konvexe und konische Optimierung“.
 
 Weiter unten: **fünf Experimente** (**🔬**), **🚧 Wo die Annahmen enden** und der Expander **📐 Mathematische Formulierung**.
@@ -169,7 +169,7 @@ if form == "ball_soc":
     weights = sel.pair.z.reshape(-1, 3)[:, 0]
 st.plotly_chart(build_shape(a.cloud.points, form, A.decode(form, a.cloud.points, sel.pair.primal.x), weights), width="stretch", key="main_chart")
 st.caption("Die Form ist die Lösung des Primals" + ("; große Punkte tragen Gewicht im Dual (Stützpunkte)." if weights is not None else "; bei der Kugel im Lorentz-Kegel zeigt die Punktgröße die Dualgewichte.") +
-           " Alle Formen sind um den Mittelwert der Wolke zentriert; bei den Ellipsen liegt der Mittelpunkt im Ursprung.")
+           " Die Wolke ist um ihren Mittelwert verschoben; Würfel, Raute und Kugel haben einen frei gewählten Mittelpunkt, die Ellipsen liegen im Ursprung.")
 
 if st.button("📄 PDF der aktuellen Wolke erstellen", key="pdf_make"):
     st.session_state["pdf_made"] = (settings, build_pdf(a))
