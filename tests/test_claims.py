@@ -40,7 +40,7 @@ def test_hand_instance_primal_and_dual_agree_in_all_six_forms():
 def test_standard_cloud_numbers(std):
     rows = {r["form"]: r for r in ev.pair_rows(std)}
     assert {f: round(r["primal"], 3) for f, r in rows.items()} == pytest.approx({"cube": 5.784, "diamond": 10.090, "ball_soc": 7.167, "ball_psd": 7.167, "ellipse_axis": 134.265, "ellipse_psd": 78.517}, abs=0.002)
-    assert all(abs(r["primal"] - r["dual"]) < 1e-7 and r["gap"] < 1e-8 and r["residual"] < 1e-10 and r["ok"] for r in rows.values())
+    assert all(abs(r["primal"] - r["dual"]) < 1e-7 and r["gap"] < 1e-7 and r["residual"] < 1e-10 and r["ok"] for r in rows.values())     # Lücke < 1e-7 wie bei den 90 Läufen (README: bis 3,4e-8); die allgemeine Ellipse (PSD) liegt mit Randabstand ~1e-7 so nah am Rand, dass die letzte Stelle von der CPU abhängt
     assert {f: r["dual_variables"] for f, r in rows.items()} == {"cube": 77, "diamond": 57, "ball_soc": 57, "ball_psd": 117, "ellipse_axis": 22, "ellipse_psd": 24}
     assert {f: r["rows"] for f, r in rows.items()} == {"cube": 80, "diamond": 100, "ball_soc": 60, "ball_psd": 120, "ellipse_axis": 26, "ellipse_psd": 30}
     assert {f: r["level"] for f, r in rows.items()}["ball_soc"] == 1e-3 and rows["ellipse_axis"]["level"] > 1e-3
